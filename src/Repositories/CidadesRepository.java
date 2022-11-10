@@ -12,9 +12,15 @@ public class CidadesRepository {
         this.cidades.add(cidade);
     }
 
-    public List<CidadeEntity> getCidadesByName(String municipio) throws Exception {
-        return this.cidades.stream()
-        .filter(x -> x.getMunicípio().contains(municipio))
-        .toList(); 
+    public ArrayList<CidadeEntity> getCidadesByName(String municipio) {
+        List<CidadeEntity> cidadesFiltradas = this.cidades.stream()
+            .filter(x -> x.getMunicípio().toUpperCase().contains(municipio.toUpperCase()))
+            .toList(); 
+
+        return new ArrayList<CidadeEntity>(cidadesFiltradas);
+    }
+
+    public ArrayList<CidadeEntity> getCidades() {
+        return new ArrayList<CidadeEntity>(cidades);
     }
 }
