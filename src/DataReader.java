@@ -1,8 +1,12 @@
 import Exceptions.*;
+
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+import Controllers.CidadesController;
 
 public class DataReader {
     Scanner sc = new Scanner(System.in);
+	CidadesController controller = new CidadesController();
 
     public void executa() {
         int opcao = 0;
@@ -11,14 +15,15 @@ public class DataReader {
             try {
 				System.out.println("=========================================\n");
 				System.out.println("Opcoes:");
-				System.out.println("[1] Cadastrar nova usina.");
-				System.out.println("[2] Pesquisar uma usina.");
-				System.out.println("[3] Listar todas as usinas.");
-				System.out.println("[4] Consulta o preço do MHh.");
-				System.out.println("[5] Salvar usinas em arquivo.");
+				System.out.println("[1] Carregar dados abertos.");
+				System.out.println("[2] Classificar dados por nome.");
+				System.out.println("[3] Consultar todos os dados.");
+				System.out.println("[4] Consultar dados por nome.");
+				System.out.println("[5] Salvar ultimos dados pesquisados em arquivo.");
 				System.out.println("[0] Sair.");
 				System.out.print("Digite a opção desejada: ");
 				aux = sc.nextLine();
+				System.out.println("\n=========================================\n");
 				
 				while (!aux.matches("[0-5]")) {
 					System.out.print("Opção inválida, tente novamente: ");
@@ -29,7 +34,6 @@ public class DataReader {
 				
 				switch (opcao) {
 					case 1:
-                        //TODO: carregarDadosAbertos
 						this.carregarDadosAbertos();
 						break;
 					case 2:
@@ -37,15 +41,12 @@ public class DataReader {
 						this.classificarDadosPorNome();
 						break;
 					case 3:
-                        //TODO: consultarTodosOsDados
 						this.consultarTodosOsDados();
 						break;
 					case 4:
-                        //TODO: consultarDadosPorNome
 						this.consultarDadosPorNome();
 						break;
 					case 5:
-                        //TODO: salvarDadosArquivo
 						this.salvarDadosArquivo();
 						break;
 					case 0:
@@ -63,23 +64,80 @@ public class DataReader {
         sc.close();
 	}
 
-    public void carregarDadosAbertos() throws Exception{
+    private void carregarDadosAbertos() throws Exception{
+		try{
+			System.out.println("Aloque o arquivo para o diretório 'assets' da pasta do projeto!");
+			System.out.print("Insira o nome do arquivo (sem extensão): ");
+			String fileName = sc.nextLine();
+
+			while (fileName.length() < 5) {
+				System.out.println("O nome do arquivo é invalido! Tente novamente");
+				fileName = sc.nextLine();
+			}
+
+			if (controller.carregarDadosAbertos(fileName))
+				System.out.println("\nDados carregados. Operação finalizada com sucesso!");
+			else
+				throw new Exception("Não foi possível ler o arquivo!");
+		}
+		catch (Exception e) {
+			if (!(e instanceof FileNotFoundException))
+				System.out.println("Algum erro foi encontrado! Entre em contato com o suporte técnico");
+			System.out.println(e.getMessage());
+		}
+
+    }
+
+    private void classificarDadosPorNome() throws Exception{
         throw new Exception("Método não implementado");
     }
 
-    public void classificarDadosPorNome() throws Exception{
-        throw new Exception("Método não implementado");
+    private void consultarTodosOsDados() throws Exception{
+		try {
+			System.out.println(controller.listarTodosOsDados());
+		}
+		catch (Exception e) {
+			System.out.println("Algum erro foi encontrado! Entre em contato com o suporte técnico");
+			System.out.println(e.getMessage());
+		}
     }
 
-    public void consultarTodosOsDados() throws Exception{
-        throw new Exception("Método não implementado");
+    private void consultarDadosPorNome() throws Exception{
+		try{
+			System.out.print("Insira o nome do Município: ");
+			String municipio = sc.nextLine();
+
+			while (municipio.length() < 0){
+				System.out.print("O nome do município não pode estar vazio, tente novamente: ");
+				municipio = sc.nextLine();
+			}
+
+			System.out.println("\n" + controller.buscarPorNome(municipio));
+		}
+		catch (Exception e) {
+			System.out.println("Algum erro foi encontrado! Entre em contato com o suporte técnico");
+			System.out.println(e.getMessage());
+		}
     }
 
-    public void consultarDadosPorNome() throws Exception{
-        throw new Exception("Método não implementado");
-    }
+    private void salvarDadosArquivo() throws Exception{
+		try {
+			System.out.print("Insira o nome do Arquivo (sem extensão): ");
+			String nome = sc.nextLine();
 
-    public void salvarDadosArquivo() throws Exception{
-        throw new Exception("Método não implementado");
+			while (nome.length() <= 0){
+				System.out.print("O nome da arquivo é obrigatório! Tente novamente: ");
+				nome = sc.nextLine();
+			}
+
+			if (controller.salvarDadosArquivo(nome))
+				System.out.println("\nArquivo salvo no diretório \"out\" do projeto. Operação finalizada com sucesso!");
+			else
+				throw new Exception("Não foi possível salvar o arquivo!");
+		}
+		catch (Exception e) {
+			System.out.println("Algum erro foi encontrado! Entre em contato com o suporte técnico");
+			System.out.println(e.getMessage());
+		}
     }
 }
