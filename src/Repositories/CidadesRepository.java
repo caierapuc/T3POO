@@ -1,6 +1,7 @@
 package Repositories;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import Entities.*;
@@ -22,5 +23,14 @@ public class CidadesRepository {
 
     public ArrayList<CidadeEntity> getCidades() {
         return new ArrayList<CidadeEntity>(cidades);
+    }
+
+    public void sortAscending(){
+        cidades.sort(Comparator.comparing(CidadeEntity::getMunicípio));
+    }
+
+    public void sortDescending(){
+        cidades.sort(Comparator.comparing(CidadeEntity::getMunicípio)
+        .reversed());
     }
 }

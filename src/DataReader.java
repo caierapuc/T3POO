@@ -89,7 +89,23 @@ public class DataReader {
     }
 
     private void classificarDadosPorNome() throws Exception{
-        throw new Exception("Método não implementado");
+		if (controller.isEmpty())
+			System.out.println("Não existem dados carregados!\n");
+		else {
+			System.out.print("Como deseja ordenar os dados (1-Crescente/2-Decrescente)? ");
+			String order = sc.nextLine();			
+			while (!order.matches("[1-2]")) {
+				System.out.print("\nOpção inválida, tente novamente: ");
+				order = sc.nextLine();
+			}
+
+			if (order.equals("1"))
+				controller.sortAscending();
+			else
+				controller.sortDescending();
+			
+			System.out.println("Ordenação realizada com sucesso!");
+		}
     }
 
     private void consultarTodosOsDados() throws Exception{

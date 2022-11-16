@@ -1,6 +1,6 @@
 package Entities;
 
-public class CidadeEntity implements Comparable<String> {
+public class CidadeEntity {
     private String município;
     private long ibge;
     private double latitude;
@@ -101,10 +101,5 @@ public class CidadeEntity implements Comparable<String> {
 
     public long getTotal21() {
         return total21;
-    }
-
-    @Override
-    public int compareTo(String o) {
-        return this.município.compareToIgnoreCase(o);
     }
 }

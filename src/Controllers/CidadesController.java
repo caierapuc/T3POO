@@ -99,4 +99,16 @@ public class CidadesController {
 			return true;
 		return false;
 	}
+
+    public boolean isEmpty() {
+        return repository.getCidades().isEmpty();
+    }
+
+    public void sortAscending(){
+        repository.sortAscending();
+    }
+
+    public void sortDescending(){
+        repository.sortDescending();
+    }
 }
