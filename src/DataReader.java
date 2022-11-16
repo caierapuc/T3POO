@@ -37,7 +37,6 @@ public class DataReader {
 						this.carregarDadosAbertos();
 						break;
 					case 2:
-                        //TODO: classificarDadosPorNome
 						this.classificarDadosPorNome();
 						break;
 					case 3:
